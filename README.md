@@ -13,7 +13,7 @@
 
 ## Key Features
 
-* Sistema de autorização, utilizando tanto o Spring Security quanto o OAuth2 com logins pelas redes sociais (Google e Github)
+* Sistema de autorização, utilizando OAuth
 * Sistema de Upload de arquivos .txt para importar pro sistema operações de empresas.
 * Sistema de Listagem com paginação das operações já importadas
 * Só é possivel entrar na home usuários que estejam logados (está bem simples o sistema de autorização)
