@@ -24,7 +24,9 @@
 
 ## Como Instalar o Projeto
 
-Para clonar essa aplicação, você vai precisar do [Git](https://git-scm.com), [maven](https://maven.apache.org/download.cgi), [java](https://jdk.java.net/archive/) e [docker](https://docs.docker.com/compose/install/)) instalados no seu computador. Para rodar o seguinte trecho de código:
+Para clonar essa aplicação, você vai precisar do ([Git](https://git-scm.com), [maven](https://maven.apache.org/download.cgi), [java](https://jdk.java.net/archive/) e [docker](https://docs.docker.com/compose/install/)) instalados no seu computador.
+
+depois de ter certeza que já tens tudo instalado no seu computador e com a versão correta, vamos rodar o seguinte código:
 
 ```bash
 # Clone this repository
@@ -69,6 +71,7 @@ Agora com tudo no ar, pode rodar o projeto pela IDE.
 
 ### List view
 ![screenshot](/src/main/resources/static/image/list.png)
+
 ## License
 
 MIT
