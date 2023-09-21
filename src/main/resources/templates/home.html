@@ -20,7 +20,7 @@
 		<div class="album py-5 bg-light container">
 			<form class="form-signin was-validated" method="POST" th:action="@{/operations/upload}" enctype="multipart/form-data">
 				<div class="custom-file mb-3">
-					<input type="file" class="custom-file-input" name="file" id="validatedCustomFile" required>
+					<input accept=".txt" type="file" class="custom-file-input" name="file" id="validatedCustomFile" required>
 					<label class="custom-file-label" for="validatedCustomFile">Selecione seu arquivo CNAB</label>
 					<div class="invalid-feedback">Nenhum arquivo selecionado</div>
 				</div>
