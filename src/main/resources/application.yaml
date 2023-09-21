@@ -1,0 +1,37 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: myuser
+    password: mypassword
+  jpa:
+    defer-datasource-initialization: true
+    hibernate:
+      ddl-auto: none
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 92231632082-ms9pfkp6i5mn2p6fe6i95m955ue6jg52.apps.googleusercontent.com
+            client-secret: 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
+          github:
+            client-id: 1b5453bd380d5331a7c7
+            client-secret: 95a82e3cb31ed54f6c3ca92b1dd4718c13289b0e
+            scope: read:user,public_repo
+
+server:
+  port: 8081
+
+jwt:
+  secret: javamaster
+
+resource-uri: https://api.github.com/user/repos
+

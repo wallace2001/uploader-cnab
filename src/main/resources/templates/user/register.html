@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="UTF-8" />
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="description" content="Uploader CNAB" />
+	<link rel="icon" />
+	<!-- Icons fontawesome -->
+	<link href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" crossorigin="anonymous" rel="stylesheet" />
+
+	<style>
+.bd-placeholder-img {
+	font-size: 1.125rem;
+	text-anchor: middle;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+@media ( min-width : 768px) {
+	.bd-placeholder-img-lg {
+		font-size: 3.5rem;
+	}
+}
+</style>
+
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/style-login.css(v=${version})}" rel="stylesheet" />
+</head>
+<body>
+
+<form th:action="@{/user/save}"
+	  th:object="${user}" method="POST" class="form-signin was-validated">
+
+	<div class="form-label-group text-center">
+		<h1 class="h3 mb-3 font-weight-normal">Cadastrar</h1>
+	</div>
+
+	<div class="form-label-group">
+		<input type="text" id="email" class="form-control"
+			   placeholder="Email address" name="email" required autofocus value="admin@admin.com.br">
+		<label for="email">Email</label>
+		<div class="invalid-feedback">Use seu email cadastrado como login.</div>
+	</div>
+
+	<div class="form-label-group">
+		<input type="password" id="inputPassword" class="form-control"
+			   placeholder="Password" name="password" required>
+		<label for="inputPassword">Senha</label>
+		<div class="invalid-feedback">Digite sua senha.</div>
+	</div>
+
+	<input type="hidden" th:field="*{id}">
+	<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
+	<nav class="nav nav-pills flex-column flex-sm-row">
+		<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/login}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Login</a>
+	</nav>
+</form>
+</body>
+</html>
