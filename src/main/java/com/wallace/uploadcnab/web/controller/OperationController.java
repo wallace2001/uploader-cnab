@@ -59,7 +59,7 @@ public class OperationController {
                 Operation operation = new Operation(line);
                 operationService.save(operation);
             }
-            attr.addFlashAttribute("error", "Ocorreu um erro no sistema. Tente novamente mais tarde!");
+            attr.addFlashAttribute("success", "Informações do arquivo salvo com sucesso no nosso banco de dados.");
             br.close();
             return new ModelAndView("redirect:/operations");
         } catch (Exception e) {

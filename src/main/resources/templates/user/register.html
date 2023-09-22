@@ -41,7 +41,7 @@
 
 	<div class="form-label-group">
 		<input type="text" id="email" class="form-control"
-			   placeholder="Email address" name="email" required autofocus value="admin@admin.com.br">
+			   placeholder="Email address" name="email" required autofocus>
 		<label for="email">Email</label>
 		<div class="invalid-feedback">Use seu email cadastrado como login.</div>
 	</div>
@@ -53,7 +53,6 @@
 		<div class="invalid-feedback">Digite sua senha.</div>
 	</div>
 
-	<input type="hidden" th:field="*{id}">
 	<button class="btn btn-lg btn-primary btn-block" type="submit">Cadastrar</button>
 	<nav class="nav nav-pills flex-column flex-sm-row">
 		<a class="flex-sm-fill text-sm-left nav-link text-decoration-none" th:href="@{/login}"><i class="far fa-arrow-alt-circle-right"></i>&nbsp;Login</a>

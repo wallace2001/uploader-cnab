@@ -26,7 +26,7 @@ import java.util.Map;
 @RequestMapping
 public class UserController {
 
-    private static String authorizationRequestBaseUri = "oauth2/authorization";
+    private static final String authorizationRequestBaseUri = "oauth2/authorization";
     @Autowired
     private ClientRegistrationRepository clientRegistrationRepository;
 
@@ -34,8 +34,8 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/sign-up"})
-    public String newUser(User user) {
+    @GetMapping("/sign-up")
+    public String newUser() {
 
         return "user/register";
     }
@@ -50,11 +50,6 @@ public class UserController {
             attr.addFlashAttribute("falha", "Cadastro não realizado, email já existente.");
         }
         return "redirect:/login";
-    }
-
-    @GetMapping({"/", "/home"})
-    public String home() {
-        return "home";
     }
 
     @GetMapping({"/login"})
