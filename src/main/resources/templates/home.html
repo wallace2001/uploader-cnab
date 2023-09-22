@@ -17,6 +17,8 @@
 			</div>
 		</section>
 
+			<div th:replace="~{fragments/alert :: alert-success}"></div>
+
 		<div class="album py-5 bg-light container">
 			<form class="form-signin was-validated" method="POST" th:action="@{/operations/upload}" enctype="multipart/form-data">
 				<div class="custom-file mb-3">

@@ -4,12 +4,12 @@
 <meta charset="UTF-8">
 <body>
 
-	<div id="alerta" th:fragment="alerta-sucesso">
-		<div th:if="${sucesso != null}" >
+	<div id="alerta" th:fragment="alert-success">
+		<div th:if="${success != null}" >
 			<div class="alert alert-success alert-dismissible fade show" role="alert">
 			  <i class="oi oi-check"></i>
 			  <span>
-			  	<strong th:text="${sucesso}"></strong>
+			  	<strong th:text="${error}"></strong>
 			  </span>
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    <span aria-hidden="true">&times;</span>
@@ -17,11 +17,11 @@
 			</div>
 		</div>
 		
-		<div th:if="${falha != null}" >
+		<div th:if="${error != null}" >
 			<div class="alert alert-danger alert-dismissible fade show" role="alert">
 			  <i class="oi oi-check"></i>
 			  <span>
-			  	<strong th:text="${falha}"></strong>
+			  	<strong th:text="${error}"></strong>
 			  </span>
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 			    <span aria-hidden="true">&times;</span>

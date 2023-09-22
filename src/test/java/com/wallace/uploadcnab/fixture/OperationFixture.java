@@ -2,7 +2,9 @@ package com.wallace.uploadcnab.fixture;
 
 import com.wallace.uploadcnab.domain.Operation;
 import com.wallace.uploadcnab.domain.TypeOperation;
+import com.wallace.uploadcnab.repository.OperationRepository;
 import com.wallace.uploadcnab.util.Utils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
@@ -13,11 +15,7 @@ import java.util.UUID;
 @Component
 public class OperationFixture {
 
-    private Random random = new Random();
-
-    public OperationFixture() {
-
-    }
+    private final Random random = new Random();
 
     public Operation create() {
         Operation operation = new Operation();

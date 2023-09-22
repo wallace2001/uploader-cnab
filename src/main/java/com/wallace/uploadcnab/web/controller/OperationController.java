@@ -2,8 +2,10 @@ package com.wallace.uploadcnab.web.controller;
 
 import com.wallace.uploadcnab.domain.Operation;
 import com.wallace.uploadcnab.dto.ResponseOperationDto;
+import com.wallace.uploadcnab.repository.OperationRepository;
 import com.wallace.uploadcnab.service.OperationService;
 import jakarta.servlet.http.HttpServletResponse;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -31,13 +35,22 @@ public class OperationController {
     @Autowired
     private OperationService operationService;
 
+    @Mock
+    OperationRepository operationRepository;
+
     @GetMapping()
     public String home(HttpServletResponse response) {
         return "home";
     }
 
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attr) throws Exception {
+    public ModelAndView uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes attr) {
+
+        if (!Objects.requireNonNull(file.getOriginalFilename()).contains(".txt")) {
+            attr.addFlashAttribute("error", "Arquivo não permitido.");
+            return new ModelAndView("redirect:/operations");
+        }
+
         try {
             BufferedReader br = new BufferedReader(new InputStreamReader(file.getInputStream()));
 
@@ -46,13 +59,14 @@ public class OperationController {
                 Operation operation = new Operation(line);
                 operationService.save(operation);
             }
-            attr.addFlashAttribute("sucesso", "Operação realizada com sucesso!");
+            attr.addFlashAttribute("error", "Ocorreu um erro no sistema. Tente novamente mais tarde!");
             br.close();
-        } catch (IOException e) {
-            attr.addFlashAttribute("falha", "Erro ao realizar o upload do arquivo!");
+            return new ModelAndView("redirect:/operations");
+        } catch (Exception e) {
+            attr.addFlashAttribute("error", "Ocorreu um erro no sistema. Tente novamente mais tarde!");
+            return new ModelAndView("redirect:/operations");
         }
 
-        return "redirect:/home";
     }
 
     @GetMapping("/list")
