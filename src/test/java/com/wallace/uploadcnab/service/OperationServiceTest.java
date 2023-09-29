@@ -1,11 +1,16 @@
 package com.wallace.uploadcnab.service;
 
 import com.wallace.uploadcnab.domain.Operation;
+import com.wallace.uploadcnab.domain.Stock;
 import com.wallace.uploadcnab.domain.TypeOperation;
 import com.wallace.uploadcnab.dto.OperationDto;
 import com.wallace.uploadcnab.dto.ResponseOperationDto;
 import com.wallace.uploadcnab.fixture.OperationFixture;
+import com.wallace.uploadcnab.fixture.StockFixture;
+import com.wallace.uploadcnab.fixture.TypeOperationFixture;
 import com.wallace.uploadcnab.repository.OperationRepository;
+import com.wallace.uploadcnab.repository.StockRepository;
+import com.wallace.uploadcnab.repository.TypeOperationRepository;
 import com.wallace.uploadcnab.util.Utils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -30,13 +36,32 @@ public class OperationServiceTest {
     private Operation operation;
     private final OperationFixture operationFixture;
 
+    private final TypeOperationFixture typeOperationFixture;
+
+    private final StockFixture stockFixture;
+
     @Mock
     private OperationRepository operationRepository;
+
+    @Mock
+    private StockRepository stockRepository;
+
+    @Mock
+    private TypeOperationRepository typeOperationRepository;
+
+    @Mock
+    private StockService stockService;
+
+    @Mock
+    private TypeOperationService typeOperationService;
+
     @InjectMocks
     private OperationService operationService;
 
     public OperationServiceTest(){
         this.operationFixture = new OperationFixture();
+        this.typeOperationFixture = new TypeOperationFixture();
+        this.stockFixture = new StockFixture();
     }
 
     @BeforeEach
@@ -46,8 +71,14 @@ public class OperationServiceTest {
 
     @Test
     void should_SaveOperation_When_OperationServiceSavedCalled() {
-        when(operationRepository.save(any(Operation.class))).thenReturn(operation);
 
+        TypeOperation typeOperation = typeOperationFixture.create();
+        Stock stock = stockFixture.create(List.of(operation));
+
+        when(typeOperationService.findById(any())).thenReturn(Optional.ofNullable(typeOperation));
+        when(stockService.findByStoreName(any())).thenReturn(Optional.ofNullable(stock));
+
+        when(operationRepository.save(any(Operation.class))).thenReturn(operation);
         Operation savedOperation = operationService.save(operation);
 
         assertNotNull(savedOperation);
