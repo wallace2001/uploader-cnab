@@ -11,9 +11,6 @@ import lombok.Setter;
 public class OperationDto {
 
     private String id;
-    private String storeOwner;
-    private String nameStore;
-    private String document;
     private String cardNumber;
     private String typeOperation;
     private String typeNature;
@@ -22,10 +19,7 @@ public class OperationDto {
     private String date;
 
     public OperationDto(Operation operation) {
-        this.id = operation.getId().toString().substring(0, 3) + "...";
-        this.setStoreOwner(operation.getStoreOwner());
-        this.setNameStore(operation.getNameStore());
-        this.setDocument(Utils.formatDocumento(operation.getDocument()));
+        this.id = operation.getId().toString().substring(0, 5) + "...";
         this.setCardNumber(Utils.formatCardNumber(operation.getCardNumber()));
         this.setTypeOperation(operation.getType().getDescription());
         this.setTypeNature(operation.getType().getNature());

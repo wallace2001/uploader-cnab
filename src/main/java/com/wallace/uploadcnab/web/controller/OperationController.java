@@ -1,13 +1,13 @@
 package com.wallace.uploadcnab.web.controller;
 
 import com.wallace.uploadcnab.domain.Operation;
-import com.wallace.uploadcnab.dto.ResponseOperationDto;
+import com.wallace.uploadcnab.dto.StockDto;
 import com.wallace.uploadcnab.repository.OperationRepository;
 import com.wallace.uploadcnab.service.OperationService;
+import com.wallace.uploadcnab.service.StockService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +19,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 
 @Controller
@@ -34,6 +30,9 @@ public class OperationController {
 
     @Autowired
     private OperationService operationService;
+
+    @Autowired
+    private StockService stockService;
 
     @Mock
     OperationRepository operationRepository;
@@ -70,21 +69,8 @@ public class OperationController {
     }
 
     @GetMapping("/list")
-    public String listOperations(Model model,
-                                 @RequestParam("page") Optional<Integer> page,
-                                 @RequestParam("size") Optional<Integer> size
-    ) {
-        int currentPage = page.orElse(1);
-        int pageSize = size.orElse(5);
-
-        ResponseOperationDto response = operationService.findAll(PageRequest.of(currentPage - 1, pageSize));
-
-        if (response.getTotalPages() > 0) {
-            List<Integer> pageNumbers = IntStream.rangeClosed(1, response.getTotalPages())
-                    .boxed()
-                    .collect(Collectors.toList());
-            model.addAttribute("pageNumbers", pageNumbers);
-        }
+    public String listOperations(Model model) {
+        List<StockDto> response = stockService.findAll();
 
         model.addAttribute("data", response);
         return "lista";

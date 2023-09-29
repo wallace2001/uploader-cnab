@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter @Setter
 @AllArgsConstructor
 @EqualsAndHashCode
-@Table(name = "operation")
+@Table(name = "operations")
 public class Operation implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -37,10 +37,14 @@ public class Operation implements Serializable {
     private String document;
     @Column(name = "cardNumber", nullable = false)
     private String cardNumber;
-    @Column(name = "name_owner", nullable = false)
+    @Column(name = "name_store", nullable = false)
     private String nameStore;
     @Column(name = "store_owner", nullable = false)
     private String storeOwner;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "name_store_stock", referencedColumnName = "name_store")
+    private Stock stock;
 
     public Operation(String line) throws ParseException {
         String type = line.substring(0, 1);
