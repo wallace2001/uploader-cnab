@@ -1,12 +1,15 @@
 package com.wallace.uploadcnab.web.controller;
 
 import com.wallace.uploadcnab.domain.Operation;
-import com.wallace.uploadcnab.dto.OperationDto;
-import com.wallace.uploadcnab.dto.ResponseOperationDto;
+import com.wallace.uploadcnab.domain.Stock;
+import com.wallace.uploadcnab.dto.StockDto;
 import com.wallace.uploadcnab.fixture.OperationFixture;
+import com.wallace.uploadcnab.fixture.StockFixture;
 import com.wallace.uploadcnab.oauth.NamedOAuthPrincipal;
 import com.wallace.uploadcnab.repository.OperationRepository;
+import com.wallace.uploadcnab.repository.StockRepository;
 import com.wallace.uploadcnab.service.OperationService;
+import com.wallace.uploadcnab.service.StockService;
 import org.apache.catalina.security.SecurityConfig;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,9 +24,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.mock.web.MockMultipartFile;
@@ -38,7 +38,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.servlet.ModelAndView;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.*;
@@ -59,6 +58,7 @@ class OperationControllerTest {
     private File FILE;
 
     private OperationFixture operationFixture;
+    private StockFixture stockFixture;
 
     private MockHttpSession session;
 
@@ -74,8 +74,14 @@ class OperationControllerTest {
     @Mock
     private OperationRepository operationRepository;
 
+    @Mock
+    private StockRepository stockRepository;
+
     @MockBean
     private OperationService operationService;
+
+    @MockBean
+    private StockService stockService;
 
     @InjectMocks
     private OperationController operationController;
@@ -83,6 +89,7 @@ class OperationControllerTest {
     @BeforeEach
     void init() throws IOException {
         this.operationFixture = new OperationFixture();
+        this.stockFixture = new StockFixture();
         session = makeAuthSession("azeckoski", "USER");
 
         FILE = new ClassPathResource("CNAB.txt").getFile();
@@ -147,23 +154,12 @@ class OperationControllerTest {
                 operation_2,
                 operation_3
         );
-        Page<Operation> pagedOperations = new PageImpl<>(operations);
 
-        List<OperationDto> operationDtos = operations.stream()
-                .map(OperationDto::new)
-                .toList();
+        Stock stock = stockFixture.create(operations);
+        StockDto stockDto = new StockDto(stock);
 
-        ResponseOperationDto responseOperationDto = new ResponseOperationDto();
-        responseOperationDto.setOperations(operationDtos);
-        responseOperationDto.setNumber(pagedOperations.getNumber());
-        responseOperationDto.setTotal(100L);
-        responseOperationDto.setTotalPages(pagedOperations.getTotalPages());
-        responseOperationDto.setSize(pagedOperations.getSize());
-
-        when(operationRepository.findAll(PageRequest.of(1, 5))).thenReturn(pagedOperations);
-        when(operationRepository.findAll()).thenReturn(operations);
-
-        when(operationService.findAll(any())).thenReturn(responseOperationDto);
+        when(stockRepository.findAll()).thenReturn(List.of(stock));
+        when(stockService.findAll()).thenReturn(List.of(stockDto));
 
         MvcResult result = this.mockMvc
                 .perform(get("/operations/list").session(session))
@@ -179,20 +175,9 @@ class OperationControllerTest {
 
     @Test
     void Should_returnEmptyPage_When_listOperationsForVoids() throws Exception {
-        List<Operation> operations = List.of();
-        Page<Operation> pagedOperations = new PageImpl<>(operations);
 
-        ResponseOperationDto responseOperationDto = new ResponseOperationDto();
-        responseOperationDto.setOperations(List.of());
-        responseOperationDto.setNumber(pagedOperations.getNumber());
-        responseOperationDto.setTotal(100L);
-        responseOperationDto.setTotalPages(pagedOperations.getTotalPages());
-        responseOperationDto.setSize(pagedOperations.getSize());
-
-        when(operationRepository.findAll(PageRequest.of(1, 5))).thenReturn(pagedOperations);
-        when(operationRepository.findAll()).thenReturn(operations);
-
-        when(operationService.findAll(any())).thenReturn(responseOperationDto);
+        when(stockRepository.findAll()).thenReturn(List.of());
+        when(stockService.findAll()).thenReturn(List.of());
 
         MvcResult result = this.mockMvc
                 .perform(get("/operations/list").session(session))

@@ -66,40 +66,4 @@ public class OperationServiceTest {
         assertEquals(savedOperation.getClass(), Operation.class);
         assertEquals(savedOperation.getType().getClass(), TypeOperation.class);
     }
-
-    @Test
-    void should_ReturnPageOperations_When_OperationServiceFindAllCalled() {
-        List<Operation> operations = Collections.singletonList(
-                operation
-        );
-        Page<Operation> pagedOperations = new PageImpl<>(operations);
-        when(operationRepository.findAll(PageRequest.of(1, 1))).thenReturn(pagedOperations);
-        when(operationRepository.findAll()).thenReturn(operations);
-
-        ResponseOperationDto response = operationService.findAll(PageRequest.of(1, 1));
-
-        assertNotNull(response);
-        assertEquals(response.getTotalPages(), 1);
-        assertEquals(response.getSize(), 1);
-        assertNotNull(response.getTotal());
-        assertEquals(response.getOperations().size(), 1);
-        assertEquals(response.getNumber(), 0);
-        assertNotNull(response.getOperations());
-
-        for (OperationDto operationSaved: response.getOperations()) {
-            assertNotNull(operationSaved.getId());
-            assertEquals(operationSaved.getNameStore(), operation.getNameStore());
-            assertEquals(operationSaved.getDocument(), Utils.formatDocumento(operation.getDocument()));
-            assertEquals(operationSaved.getStoreOwner(), operation.getStoreOwner());
-            assertEquals(operationSaved.getCardNumber(), Utils.formatCardNumber(operation.getCardNumber()));
-            assertEquals(operationSaved.getValue(), Utils.formatValue(operation.getValue()));
-            assertEquals(operationSaved.getDate(), Utils.formatTimestamp(operation.getDate()));
-            assertEquals(operationSaved.getTypeOperation(), operation.getType().getDescription());
-            assertEquals(operationSaved.getTypeNature(), operation.getType().getNature());
-            assertEquals(operationSaved.getClass(), OperationDto.class);
-        };
-
-        assertEquals(ResponseOperationDto.class, response.getClass());
-
-    }
 }
