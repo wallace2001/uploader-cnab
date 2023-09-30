@@ -12,6 +12,20 @@ services:
       POSTGRES_DB: mydatabase
     networks:
       - app
+
+  app:
+    build: .
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
+      SPRING_DATASOURCE_USERNAME: myuser
+      SPRING_DATASOURCE_PASSWORD: mypassword
+    networks:
+      - app
+
   pgadmin:
     image: dpage/pgadmin4:latest
     restart: always
@@ -23,7 +37,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
     networks:
-      app:
+      - app
 
 networks:
   app:
