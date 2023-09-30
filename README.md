@@ -42,27 +42,16 @@ Para facilitar, ao clonar o arquivo application.yaml já vai está configurado e
 após a IDE finalizar de baixar as dependências do projeto, rode o seguinte comando:
 
 ```bash
-# running postgres
-$ docker-compose up -d
+# running application
+$ docker-compose up --build
 ```
 
-Agora com o banco de dados rodando, é possivel entrar no pgadmin que vai está na porta 8080 da sua máquina.
+Basta rodar esse simples comando que a aplicação vai rodar em um container docker
 
-```JS
-  // pgadmin
-  hostname: admin@admin.com
-  password: admin
-
-  // Database
-  databaseName: postgres
-  userDatabase: myuser
-  passwordDatabase: mypassword
-  host: localhost
-  port: 5432
-```
+Basta entrar agora em http://localhost:8081
 
 ## Prontinho :)
-Agora com tudo no ar, pode rodar o projeto pela IDE.
+Pode desfrutar do projeto
 
 ## Telas
 
