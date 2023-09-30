@@ -18,16 +18,16 @@ public class Stock implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name_store")
+    @Column(name = "name_store", unique = true, nullable = false)
     private String storeName;
 
-    @Column(name = "owner_store")
+    @Column(name = "owner_store", nullable = false)
     private String ownerStore;
 
-    @Column(name = "document")
+    @Column(name = "document", nullable = false)
     private String document;
 
-    @Column(name = "balance")
+    @Column(name = "balance", nullable = false)
     private Double balance;
 
     @OneToMany(mappedBy = "stock")

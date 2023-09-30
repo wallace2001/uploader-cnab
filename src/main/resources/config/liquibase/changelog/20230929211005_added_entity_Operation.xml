@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Added the entity Operation.
+    -->
+    <changeSet id="20230929211005-1" author="wallace">
+        <createTable tableName="operations">
+            <column name="id" type="${uuidType}" defaultValueComputed="${uuidFunction}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="store_owner" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_store" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="document" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="card_number" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="date" type="timestamp with time zone">
+                <constraints nullable="false" />
+            </column>
+            <column name="id_type_operation" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="name_store_stock" type="character varying(255)">
+                <constraints nullable="false" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

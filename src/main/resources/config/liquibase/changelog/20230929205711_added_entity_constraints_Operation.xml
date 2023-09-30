@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="20230929205711-1" author="wallace">
+        <addForeignKeyConstraint baseColumnNames="id_type_operation"
+                                 baseTableName="operations"
+                                 constraintName="fk_operations__id_type_operation"
+                                 referencedColumnNames="id"
+                                 referencedTableName="type_operation"/>
+
+        <addForeignKeyConstraint baseColumnNames="name_store_stock"
+                                 baseTableName="operations"
+                                 constraintName="fk_operations__name_store_stock"
+                                 referencedColumnNames="name_store"
+                                 referencedTableName="stock"/>
+    </changeSet>
+
+</databaseChangeLog>

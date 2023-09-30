@@ -1,15 +1,18 @@
 spring:
-  sql:
-    init:
-      mode: always
+  liquibase:
+    enabled: true
+    change-log: classpath:/config/liquibase/master.xml
+    dropFirst: true
+  profiles:
+    default: dev
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     username: myuser
     password: mypassword
   jpa:
-    defer-datasource-initialization: true
+    show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   servlet:
     multipart:
       enabled: true
